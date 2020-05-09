@@ -1,6 +1,14 @@
 package montage;
 
+/**
+ * MontageRépéter.java 
+ * Classe qui permet de répéter un film 'num' fois
+ * 
+ * @author Jules Doumèche, Gwénolé Martin
+ */
+
 import film.Film;
+import film.Films;
 
 public class MontageRépéter extends Montage {
 
@@ -9,19 +17,25 @@ public class MontageRépéter extends Montage {
 
 	public MontageRépéter(Film film, int num1) {
 		super(film);
-		this.nbRépétitions = num1 > 0 ? num1 : 0;
-		this.nbRépEffectuées = 0;
+		nbRépétitions = num1 > 0 ? num1 : 0;
+		nbRépEffectuées = 0;
 	}
 
 	@Override
 	public boolean suivante(char[][] écran) {
-		boolean suiv = getFilm().suivante(écran);
-		if(!suiv && this.nbRépEffectuées < this.nbRépétitions) {
-			this.nbRépEffectuées++;
-			getFilm().rembobiner();
-			return !suiv && this.nbRépEffectuées < this.nbRépétitions;
+		boolean suiv = super.suivante(écran);
+		if(suiv && nbRépétitions > 0) {
+			return true;
 		}
-		return suiv && this.nbRépEffectuées < this.nbRépétitions;
+		else {
+			nbRépEffectuées++;
+			rembobiner();
+			if(nbRépEffectuées < nbRépétitions && super.suivante(écran)) {
+				return true;
+			}
+			nbRépEffectuées = 0;
+			rembobiner();
+			return false;
+		}
 	}
-
 }

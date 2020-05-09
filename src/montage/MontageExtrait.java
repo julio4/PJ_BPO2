@@ -1,34 +1,42 @@
 package montage;
 
+/**
+ * MontageExtrait.java 
+ * Classe qui extrait une séquence d'un film délimité 
+ * par la première et dernière image du film
+ * 
+ * @author Jules Doumèche, Gwénolé Martin
+ */
+
 import film.Film;
 import film.Films;
 
 public class MontageExtrait extends Montage {
-	private int num;
+
+	private int numImage;
 	private int première;
 	private int dernière;
 
-	public MontageExtrait(Film film, int num1, int num2) {
+	public MontageExtrait(Film film, int pre, int der) {
 		super(film);
-		this.num = 0;
-		if(num1 > num2)
-			this.num = getNbImages(getFilm());
-		this.première = (num1 < 0 ? 0 : num1);
-		this.dernière = (num2 < getNbImages(getFilm()) - 1 ? num2 : getNbImages(getFilm()) - 1);
+		numImage = 0;
+		première = (pre < 0 ? 0 : pre);
+		dernière = der;
 	}
 
 	@Override
 	public boolean suivante(char[][] écran) {
-		while(this.num < this.première) {
-			getFilm().suivante(écran);
+		while(numImage < première) {
+			super.suivante(écran);
 			Films.effacer(écran);
-			this.num++;
+			numImage++;
 		}
-		if(this.num <= this.dernière) {
-			this.num++;
-			return getFilm().suivante(écran);
+		numImage++;
+		if(numImage - 1 <= dernière && super.suivante(écran)) {
+			return true;
 		}
+		rembobiner();
+		numImage = 0;
 		return false;
 	}
-
 }

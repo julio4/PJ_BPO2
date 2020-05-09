@@ -1,53 +1,65 @@
 package montage;
 
+/**
+ * Montage.java 
+ * Classe sur laquelle repose chaque classe de Montage
+ * Permet de faire le lien entre le film à monter et le film monté
+ * 
+ * @author Jules Doumèche, Gwénolé Martin
+ */
+
 import film.Film;
 import film.Films;
 
-abstract class Montage implements Film{
-	//private int nbImages;
+class Montage implements Film{
 	private Film film;
 	
-	public Montage(Film film) {
-		this.film = film;
-		//this.nbImages = getNbImages(film);
-		this.film.rembobiner();
+	public Montage(Film f) {
+		film = f;
+		rembobiner();
 	}
 
+	/**
+	 * Indique la hauteur des images de ce film (en nombre de caractères).
+	 * 
+	 * @return Hauteur minimale de l'écran pour pouvoir afficher les images de
+	 *         ce film.
+	 */
 	@Override
 	public int hauteur() {
-		return this.film.hauteur();
+		return film.hauteur();
 	}
 
+	/**
+	 * Indique la largeur des images de ce film (en nombre de caractères).
+	 * 
+	 * @return largeur minimale de l'écran pour pouvoir afficher les images de
+	 *         ce film.
+	 */
 	@Override
 	public int largeur() {
-		return this.film.largeur();
-	}
-
-	@Override
-	public void rembobiner() {
-		//this.num = 0;
-	}
-	/*
-	int getNbImages() {
-		return nbImages;
-	}
-
-	void setNbImages(int nbImages) {
-		this.nbImages = nbImages;
-	}
-	*/
-
-	Film getFilm() {
-		return film;
-	}
-
-	int getNbImages(Film film) {
-		int i = 0;
-		char[][] écran = Films.getEcran(film);
-		while(film.suivante(écran)) {
-			++i;
-		}
-		return i;
+		return film.largeur();
 	}
 	
+	/**
+	 * Obtenir l'image suivante (s'il y en a une).
+	 * 
+	 * @param écran
+	 *            L'écran où afficher l'image
+	 * @return vrai Si l'image suivante a été affichée sur l'écran et faux si le
+	 *         film est terminé
+	 */
+	@Override
+	public boolean suivante(char[][] écran) {
+		return film.suivante(écran);
+	}
+	
+	/**
+	 * Rembobine le film en permettant de rejouer le film dans sa totalité (via
+	 * des appels successifs à la méthode suivante()).
+	 */
+	@Override
+	public void rembobiner() {
+		film.rembobiner();
+	}
 }

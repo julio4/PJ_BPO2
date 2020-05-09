@@ -1,44 +1,57 @@
 package montage;
 
+/**
+ * MontageIncruster.java 
+ * Classe qui permet d'incruster un film dans un autre 
+ * à une positions indiquée
+ * 
+ * @author Jules Doumèche, Gwénolé Martin
+ */
+
 import film.Film;
 import film.Films;
 
 public class MontageIncruster extends Montage {
+
 	private Film film2;
 	private int nLignes;
 	private int nColonnes;
+	private int numImage;
 
-	public MontageIncruster(Film film1, Film film2, int nLignes, int nColonnes) {
-		super(film1);
-		this.film2 = film2;
-		this.film2.rembobiner();
-		this.nLignes = nLignes;
-		this.nColonnes = nColonnes;
+	public MontageIncruster(Film f1, Film f2, int nL, int nC) {
+		super(f1);
+		film2 = f2;
+		film2.rembobiner();
+		numImage = 0;
+		nLignes = nL > hauteur() ? hauteur() : nL;
+		nColonnes = nC > largeur() ? largeur() : nC;
 	}
 
 	@Override
 	public boolean suivante(char[][] écran) {
-		boolean suiv = getFilm().suivante(écran);
-		char[][] écran2 = Films.getEcran(this.film2);
-		boolean suiv2 = this.film2.suivante(écran2);
-		if(suiv2 && suiv) {
-			for(int i = this.nLignes - 1; i < hauteur(); ++i) {
-				for(int j = this.nColonnes - 1; i < largeur() ; ++j) {
-					écran[i][j] = écran2[i - this.nLignes + 1][j - this.nColonnes + 1];
+		boolean suiv = super.suivante(écran);
+		char[][] écran2 = Films.getEcran(film2);
+
+		film2.rembobiner();
+		for(int i = 0; i < numImage; ++i) {
+			film2.suivante(écran2);
+		}
+		numImage++;
+		Films.effacer(écran2);
+		boolean suiv2 = film2.suivante(écran2);
+
+		if(suiv && suiv2) {
+			for(int i = nLignes - 1; i < hauteur() - 1; ++i) {
+				for(int j = nColonnes - 1; j < largeur() - 1 ; ++j) {
+					écran[i][j] = écran2[i - nLignes + 1][j - nColonnes + 1];
 				}
 			}
 		}
-		return suiv;
+		if(suiv)
+			return true;
+		rembobiner();
+		film2.rembobiner();
+		numImage = 0;
+		return false;
 	}
-
-	@Override
-	public int hauteur() {
-		return getFilm().hauteur();
-	}
-
-	@Override
-	public int largeur() {
-		return getFilm().largeur();
-	}
-
 }
