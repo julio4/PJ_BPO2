@@ -11,7 +11,7 @@ package montage;
 import film.Film;
 import film.Films;
 
-public class MontageColler extends Montage{
+public class MontageColler extends FilmMonté{
 
 	Film film2;
 	boolean finFilm1;

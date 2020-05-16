@@ -11,7 +11,7 @@ package montage;
 import film.Film;
 import film.Films;
 
-public class MontageIncruster extends Montage {
+public class MontageIncruster extends FilmMonté {
 
 	private Film film2;
 	private int nLignes;
@@ -41,8 +41,8 @@ public class MontageIncruster extends Montage {
 		boolean suiv2 = film2.suivante(écran2);
 
 		if(suiv && suiv2) {
-			for(int i = nLignes - 1; i < hauteur() - 1; ++i) {
-				for(int j = nColonnes - 1; j < largeur() - 1 ; ++j) {
+			for(int i = nLignes - 1; i < hauteur(); ++i) {
+				for(int j = nColonnes - 1; j < largeur() ; ++j) {
 					écran[i][j] = écran2[i - nLignes + 1][j - nColonnes + 1];
 				}
 			}

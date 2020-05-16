@@ -11,7 +11,7 @@ package montage;
 import film.Film;
 import film.Films;
 
-public class MontageEncadrer extends Montage {
+public class MontageEncadrer extends FilmMonté {
 
 	private char[][] écranOrigine;
 	private static final char BORDURE = '*';

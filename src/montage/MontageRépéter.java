@@ -10,7 +10,7 @@ package montage;
 import film.Film;
 import film.Films;
 
-public class MontageRépéter extends Montage {
+public class MontageRépéter extends FilmMonté {
 
 	private int nbRépEffectuées;
 	private int nbRépétitions;

@@ -1,65 +1,65 @@
 package montage;
 
 /**
- * Montage.java 
- * Classe sur laquelle repose chaque classe de Montage
- * Permet de faire le lien entre le film à monter et le film monté
+ * Monter.java 
+ * Classe statique qui comprend toutes les méthodes statiques
+ * des fonctionnalitées de montage de film
  * 
  * @author Jules Doumèche, Gwénolé Martin
  */
 
 import film.Film;
-import film.Films;
 
-class Montage implements Film{
-	private Film film;
+public class Montage{
 	
-	public Montage(Film f) {
-		film = f;
-		rembobiner();
-	}
-
 	/**
-	 * Indique la hauteur des images de ce film (en nombre de caractères).
+	 * Répète un film 'num' fois
 	 * 
-	 * @return Hauteur minimale de l'écran pour pouvoir afficher les images de
-	 *         ce film.
+	 * @return Le nouveau film qui répète 'num' fois le film d'origine
+	 *         Le film d'origine si 'num' = 1
 	 */
-	@Override
-	public int hauteur() {
-		return film.hauteur();
-	}
-
-	/**
-	 * Indique la largeur des images de ce film (en nombre de caractères).
-	 * 
-	 * @return largeur minimale de l'écran pour pouvoir afficher les images de
-	 *         ce film.
-	 */
-	@Override
-	public int largeur() {
-		return film.largeur();
+	public static Film répéter(Film film, int num) {
+		return (num == 1) ? film : new MontageRépéter(film, num);
 	}
 	
 	/**
-	 * Obtenir l'image suivante (s'il y en a une).
+	 * Obtiens un extrait du film indiqué par la première et dernière 
+	 * image de l'extrait
 	 * 
-	 * @param écran
-	 *            L'écran où afficher l'image
-	 * @return vrai Si l'image suivante a été affichée sur l'écran et faux si le
-	 *         film est terminé
+	 * @return Le nouveau film correspondant à l'extrait du film d'origine
 	 */
-	@Override
-	public boolean suivante(char[][] écran) {
-		return film.suivante(écran);
+	public static Film extrait(Film film, int première, int dernière) {
+		return new MontageExtrait(film, première, dernière);
+	}	
+
+	/**
+	 * Encadre le film par quatres lignes d'étoiles sur les bords de
+	 * l'écran
+	 * 
+	 * @return Le nouveau film correspondant au film d'origine encadré
+	 */
+	public static Film encadrer(Film film) {
+		return new MontageEncadrer(film);
 	}
 	
 	/**
-	 * Rembobine le film en permettant de rejouer le film dans sa totalité (via
-	 * des appels successifs à la méthode suivante()).
+	 * Colle deux films ensemble, film2 à la suite de film1
+	 * 
+	 * @return Le nouveau film correspondant au premier film d'origine 
+	 * suivi du second
 	 */
-	@Override
-	public void rembobiner() {
-		film.rembobiner();
+	public static Film coller(Film film1, Film film2) {
+		return new MontageColler(film1, film2);
+	}
+	
+	/**
+	 * Incruste film2 dans film1 avec le coin haut gauche du film2 à la 
+	 * ligne nLigne et à la colonne nColonne de film1
+	 * 
+	 * @return Le nouveau film avec le film2 d'origine incrusté dans le
+	 * film1 d'origine
+	 */
+	public static Film incruster(Film film1, Film film2, int nLigne, int nColonne) {
+		return new MontageIncruster(film1, film2, nLigne, nColonne);
 	}
 }

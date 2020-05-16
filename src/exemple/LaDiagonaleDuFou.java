@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 
 import film.Film;
 import film.Films;
-import montage.Monter;
+import montage.Montage;
 
 /**
  * Un exemple basique d'implémentation de l'interface Film.
@@ -43,25 +43,14 @@ public class LaDiagonaleDuFou implements Film {
 	 */
 	public static void main(String[] args) {
 		Film film = new LaDiagonaleDuFou();
-		//Films.projeter(film);
-		//film.rembobiner(); 
+
 		
-		Film testRépéter = Monter.répéter(film, 2);
-		Films.projeter(testRépéter);
-		
-		//Film testExtrait = Monter.extrait(film, 0, 9);
-		//Films.projeter(testExtrait);
-		
-		//Film testEncadrer = Monter.encadrer(film);
-		//Films.projeter(testEncadrer);
-		
-		//Film testColler = Monter.coller(film, film);
-		//Films.projeter(testColler);
-		
-		//Film testIncruster = Monter.incruster(film, film, 5, 5);
-		//Films.projeter(testIncruster);
+		Film testEncadrer = Montage.encadrer(film);
+
+		Film testIncruster = Montage.incruster(film, testEncadrer, 5, 5);
+		Films.projeter(testIncruster);
 		try {
-			Films.sauvegarder(testRépéter, "fou.txt");
+			Films.sauvegarder(film, "fou.txt");
 		} catch (FileNotFoundException e) {
 			System.err.println("Le fichier 'fou.txt' n'a pas pu être créé.");
 		}

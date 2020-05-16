@@ -11,7 +11,7 @@ package montage;
 import film.Film;
 import film.Films;
 
-public class MontageExtrait extends Montage {
+public class MontageExtrait extends FilmMonté {
 
 	private int numImage;
 	private int première;
